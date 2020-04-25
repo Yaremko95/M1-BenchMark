@@ -1,45 +1,74 @@
 <!DOCTYPE html>
 <html>
-  <!--
-        QUIZ GAME!
-
-        RULES:
-        / The player must guess correctly a certain amount of questions
-        / Each correct answer gives him one point
-        / Answers could be â€œmultipleâ€ or â€œtrue/falseâ€
-        / At the end of the game, the user must know his total score
-
-        QUESTIONS:
-        / You can get them from this URL ( http://bit.ly/strive_QUIZZ ) or you can write your own
-        / Could be multiple of boolean (true / false)
-        / [EXTRA] Show if the answer was wrong or correct after clicking
-        / [EXTRA] Present them â€œone a timeâ€
-
-        HINTS:
-        / Keep a global variable â€œscoreâ€ for the score
-        / Keep a variable â€œquestionNumberâ€ for the â€œquestionâ€ the user is answering
-        / When â€œquestionNumberâ€ is bigger then the available questions, present the score
-        / Start working with the question saved in a variable, and then include AJAX etc
-        / Start with the easier version and THEN implement the â€œEXTRAsâ€
-        / Please debug everything / try it on the console to be sure of what to expect from your code
-
-        EXTRA:
-        / Show if the answer was wrong or correct after clicking
-        / Present questions one a time
-        / Let the user select difficulty and number of questions (you can get q/a from https://opentdb.com/api.php?amount=10&category=18&difficulty=easy modifying amount and difficulty)
-
-    -->
-
-    <div id="questions">
-
-    </div>
-    <input id="submitBtn" type="button" value="submit"/>
-    <div id="results">
-
-    </div>
-
   <head></head>
+  <style>
+     body{
+      
+      height: 100%;
+      background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('background.jpeg');
+      background-size: cover;
+      background-attachment: fixed;
+     }
+    .container {
+      width: 40%;
+      padding: 20px 30px;
+      margin: auto;
+      font-family: Arial, Helvetica, sans-serif;
+      color: whitesmoke;
+      background-color: rgba(0,0,0,0.3);
+      border-radius: 5px;
+
+    }
+    .question {
+      margin-top: 20px;
+      font-weight: bold;
+      font-size: 1.2rem;
+    }
+    .answers {
+      display: flex;
+      flex-direction: column;
+      padding: 5px 10px;
+     
+      
+    }
+    .answers label {
+      padding: 3px 0;
+      cursor: pointer;
+    }
+    .submit {
+      padding: 20px 0;
+      display: flex;
+      justify-content: center;
+    }
+    #submitBtn{
+      border-radius: 5px;
+      background-color: #32292C;
+      color: whitesmoke;
+      border-color: #32292C;
+      font-weight: bold;
+      font-size: 1.3rem;
+      padding: 10px ;
+      cursor: pointer;
+      text-transform: capitalize;
+    }
+    #results {
+     display: flex;
+     justify-content: center;
+     font-size: 1.2rem;
+     padding: 15px 0;
+    }
+  </style>
   <body>
+
+
+    <div class="container">
+      <div id="questions"></div>
+      <div id="results"></div>
+      <div class="submit"><input id="submitBtn" type="button" value="submit"/> </div>
+      
+    </div>
+
+
     <script type="text/javascript">
       var questions = [
         {
@@ -141,7 +170,6 @@
               const selectedAnswer=(answerElement.querySelector(selector)||{}).value;
               const labelElement=answerElement.querySelector(selector);
               
-              console.log(selectedAnswer);
               if(selectedAnswer==undefined) {
                   answerChecked=false;
                   answerElements[quesNum].style.color="red";
@@ -155,7 +183,7 @@
                      }
               } 
             });
-            results.innerHTML=`${correctAnswers} out of ${questions.length}`;
+            results.innerHTML=`Your score is ${correctAnswers} out of ${questions.length}`;
         }
         submitBtn.addEventListener('click', showResults);
 
@@ -164,8 +192,6 @@
 
 
       window.onload = function () {
-
-       
         function showQuestions() {
             const output =[];
             questions.forEach((question, qNum ) => {
@@ -174,12 +200,12 @@
                 answers.push (
                  ` <label>
                   <input type="radio" name="q${qNum}" value="${question.incorrect_answers[number]}">
-                  ${question.incorrect_answers[number]}
+                   ${question.incorrect_answers[number]}
                   </label>`
                 );
               }
               output.push (
-                `<div class="question"> ${question.question} </div>
+                `<div class="question">${qNum+1}. ${question.question} </div>
                 <div class="answers"> ${answers.join('')}</div>`
               );
 
@@ -188,24 +214,9 @@
         }
 
         showQuestions();
-
-     
-
-     
-
-        //IF YOU ARE DISPLAYING ALL THE QUESTIONS TOGETHER:
-        //HINT: for each question, create a container with the "question"
-        //create a radio button https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/radio with, as option the both the correct answer and the incorrect answers
-        //when EVERY question has an answer (google for how to get a value from a radio button with JS)
-        //IF YOU ARE DISPLAYING ONE QUESTION AT A TIME
-        //Display first question with a title + radio button
-        //when the user select the answer, pick the next question and remove this from the page after added in a varible the users' choice.
       }
 
-      //HOW TO calculate the result
-      //You can do it in 2 ways:
-      //If you are presenting all questions together, just take all the radio buttons and check if the selected answer === correct_answer
-      //If you are presenting one question at a time, just add one point or not to the user score if the selected answer === correct_answer
+    
     </script>
   </body>
 </html>
