@@ -134,20 +134,28 @@
             const answerElements=quizQuestions.querySelectorAll('.answers');
             let correctAnswers=0;
             questions.forEach((ques, quesNum)=> {
+                answerChecked=true;
               const answerElement = answerElements[quesNum];
-             
+            
               const selector=`input[name=q${quesNum}]:checked`;
               const selectedAnswer=(answerElement.querySelector(selector)||{}).value;
-              console.log(answerElement.querySelector(selector));
-              if(selectedAnswer==ques.correct_answer) {
-                correctAnswers++;
+              const labelElement=answerElement.querySelector(selector);
               
-                answerElements[quesNum].style.color='green';
+              console.log(selectedAnswer);
+              if(selectedAnswer==undefined) {
+                  answerChecked=false;
+                  answerElements[quesNum].style.color="red";
+              } 
+              if(answerChecked==true){
+                  if(selectedAnswer==ques.correct_answer ) {
+                    correctAnswers++;
+                    labelElement.parentNode.style.color="green"; 
               } else {
-                answerElements[quesNum].style.color='red';
-              }
+                labelElement.parentNode.style.color="red";
+                     }
+              } 
             });
-            results.innerHTML=`${correctAnswers} out of ${questions.lenfth}`;
+            results.innerHTML=`${correctAnswers} out of ${questions.length}`;
         }
         submitBtn.addEventListener('click', showResults);
 
