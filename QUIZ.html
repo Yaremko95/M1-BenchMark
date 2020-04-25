@@ -34,6 +34,9 @@
     .wrong{
       color:red;
     }
+    .right {
+      color: green;
+    }
     .answers label {
       padding: 3px 0;
       cursor: pointer;
@@ -172,8 +175,17 @@
         function showResults() {
 
             let wrong =document.querySelectorAll(".wrong")
-            for(let i = 0; i < wrong.length; i++)
-              wrong[i].classList.remove("wrong")
+            let right =document.querySelectorAll(".right")
+            for(let i = 0; i < wrong.length; i++) {
+               wrong[i].classList.remove("wrong")
+              
+            }
+            right.forEach(element => {
+              element.classList.remove("right");
+            });
+
+
+             
 
             const answerElements=quizQuestions.querySelectorAll('.answers');
             let correctAnswers=0;
@@ -187,7 +199,8 @@
               
               if(selectedAnswer==undefined) {
                   answerChecked=false;
-                  answerElements[quesNum].style.color="red";
+                 // answerElements[quesNum].style.color="red";
+                 answerElements[quesNum].classList.add("wrong")
               } 
               if(answerChecked==true){
                   if(selectedAnswer==ques.correct_answer ) {
@@ -195,8 +208,8 @@
                    // answerElements[quesNum].style.color="whitesmoke";
                   // removePreviousStyle(labelElement.parentNode)
 
-
-                    labelElement.parentNode.style.color="green"; 
+                  labelElement.parentNode.classList.add("right")
+                   //dsa labelElement.parentNode.style.color="green"; 
               } else {
                 //labelElement.parentNode.style.color="red";
                 labelElement.parentNode.classList.add("wrong")
